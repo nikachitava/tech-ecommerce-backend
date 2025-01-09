@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import connectDB from "./db.js";
 
 import CategoryRoutes from "./routes/categories.route.js";
+import ProductRoutes from "./routes/product.route.js";
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/category", CategoryRoutes);
+app.use("/products", ProductRoutes);
 
 const startServer = async () => {
 	try {
