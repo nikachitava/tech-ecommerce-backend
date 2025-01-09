@@ -1,4 +1,4 @@
-import { Category } from "../models/Category.js";
+import { Category } from "../models/Category.module.js";
 import { slugify } from "../utils/slug.js";
 
 export const getCategories = async (req, res) => {
