@@ -3,6 +3,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./db.js";
 
+import CategoryRoutes from "./routes/categories.route.js";
+
 dotenv.config();
 
 const app = express();
@@ -16,6 +18,8 @@ const port = process.env.PORT || 3000;
 app.get("/", (req, res) => {
 	res.send("Server Started");
 });
+
+app.use("/category", CategoryRoutes);
 
 const startServer = async () => {
 	try {
