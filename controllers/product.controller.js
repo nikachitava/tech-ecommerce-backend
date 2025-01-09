@@ -1,5 +1,5 @@
-import { Product } from "../models/Product.model";
-import { slugify } from "../utils/slug";
+import { Product } from "../models/Product.model.js";
+import { slugify } from "../utils/slug.js";
 
 export const getProducts = async (req, res) => {
 	try {
