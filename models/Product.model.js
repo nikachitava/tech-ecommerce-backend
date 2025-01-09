@@ -99,4 +99,4 @@ productSchema.index({ category: 1, subcategory: 1 });
 productSchema.index({ slug: 1 });
 productSchema.index({ sku: 1 });
 
-module.exports = mongoose.model("Product", productSchema);
+export const Product = mongoose.model("Product", productSchema);
