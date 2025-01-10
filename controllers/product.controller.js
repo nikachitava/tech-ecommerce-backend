@@ -26,22 +26,75 @@ export const getProductById = async (req, res) => {
 
 export const addNewProduct = async (req, res) => {
 	try {
-		const { name } = req.body;
-		const thumbnail = req.file?.path || "";
+		const {
+			name,
+			description,
+			price,
+			category,
+			brand,
+			stock,
+			sku,
+			comparePrice,
+			thumbnail,
+			subcategory,
+			specifications,
+			variants,
+			tags,
+		} = req.body;
 
-		if (!thumbnail) {
-			return res.status(400).json({ message: "Thumbnail is required" });
+		// Validate required fields
+		if (
+			!name ||
+			!description ||
+			!price ||
+			!category ||
+			!brand ||
+			!stock ||
+			!sku
+		) {
+			return res.status(400).json({
+				message: "Please provide all required fields",
+			});
 		}
 
+		// const thumbnail = req.file?.path;
+		// if (!thumbnail) {
+		// 	return res.status(400).json({
+		// 		message: "Thumbnail is required",
+		// 	});
+		// }
+
 		const product = new Product({
-			...req.body,
+			name,
+			slug: slugify(name.toLowerCase()),
+			description,
+			price,
+			comparePrice,
+			category,
+			subcategory,
+			brand,
+			stock,
+			sku,
 			thumbnail,
-			slug: slugify(name),
+			specifications: specifications || [],
+			variants: variants || [],
+			tags: tags || [],
+			images: [],
+			isActive: true,
 		});
 
-		await product.save();
-		res.status(201).json(product);
+		const savedProduct = await product.save();
+		res.status(201).json({
+			success: true,
+			data: savedProduct,
+		});
 	} catch (error) {
+		if (error.code === 11000) {
+			// Duplicate key error
+			return res.status(400).json({
+				message: "Product with this slug or SKU already exists",
+			});
+		}
 		res.status(500).json({ message: error.message });
 	}
 };
