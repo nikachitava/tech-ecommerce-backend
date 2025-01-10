@@ -96,7 +96,5 @@ const productSchema = new mongoose.Schema(
 
 productSchema.index({ name: "text", description: "text" });
 productSchema.index({ category: 1, subcategory: 1 });
-productSchema.index({ slug: 1 });
-productSchema.index({ sku: 1 });
 
 export const Product = mongoose.model("Product", productSchema);
