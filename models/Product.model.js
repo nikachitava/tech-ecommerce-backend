@@ -26,8 +26,14 @@ const productSchema = new mongoose.Schema(
 			required: true,
 			min: 0,
 		},
-		comparePrice: {
+		selled: {
 			type: Number,
+			default: 0,
+			min: 0,
+		},
+		discountPercent: {
+			type: Number,
+			required: false,
 			min: 0,
 		},
 		category: {
