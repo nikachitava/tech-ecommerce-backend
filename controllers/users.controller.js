@@ -88,10 +88,22 @@ export const authUser = async (req, res) => {
 			expiresIn: "24h",
 		});
 
+		res.cookie("authToken", token, {
+			httpOnly: true,
+			secure: process.env.NODE_ENV === "production", // Use secure in production
+			sameSite: "strict",
+			maxAge: 24 * 60 * 60 * 1000, // 24 hours
+		});
+
 		res.status(200).json({
 			success: true,
 			message: "Login successful",
-			token,
+			user: {
+				id: user._id,
+				email: user.email,
+				name: user.name,
+				lastname: user.lastname,
+			},
 		});
 	} catch (error) {
 		console.error("Error in authUser:", error);
@@ -102,16 +114,38 @@ export const authUser = async (req, res) => {
 	}
 };
 
+export const logoutUser = async (req, res) => {
+	res.cookie("authToken", "", {
+		httpOnly: true,
+		secure: process.env.NODE_ENV === "production",
+		sameSite: "strict",
+		expires: new Date(0),
+	});
+
+	res.status(200).json({
+		success: true,
+		message: "Logged out successfully",
+	});
+};
+
 export const getCurrentUser = async (req, res) => {
 	try {
+		const user = await User.findById(req.userId).select("-password");
+		if (!user) {
+			return res.status(404).json({
+				success: false,
+				message: "User not found",
+			});
+		}
+
 		res.json({
 			success: true,
-			user: req.user,
+			user,
 		});
 	} catch (error) {
 		res.status(500).json({
 			success: false,
-			message: "Error fetching user data",
+			message: "Internal server error",
 		});
 	}
 };
