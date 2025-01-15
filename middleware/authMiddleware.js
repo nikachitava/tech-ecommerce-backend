@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import User from "../models/User.js";
+import { User } from "../models/Users.model.js";
 
 export const protect = async (req, res, next) => {
 	try {
@@ -20,6 +20,28 @@ export const protect = async (req, res, next) => {
 		res.status(401).json({
 			success: false,
 			message: "Token is not valid",
+		});
+	}
+};
+
+export const authenticateToken = async (req, res, next) => {
+	const token = req.cookies.authToken;
+
+	if (!token) {
+		return res.status(401).json({
+			success: false,
+			message: "Authentication required",
+		});
+	}
+
+	try {
+		const decoded = jwt.verify(token, process.env.JWT_SECRET);
+		req.userId = decoded.userId;
+		next();
+	} catch (error) {
+		return res.status(401).json({
+			success: false,
+			message: "Invalid or expired token",
 		});
 	}
 };
