@@ -8,7 +8,7 @@ import {
 	getCurrentUser,
 } from "../controllers/users.controller.js";
 
-import { protect } from "../middleware/authMiddleware.js";
+import { authenticateToken } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
@@ -17,6 +17,6 @@ router.get("/user", getUserById);
 router.post("/auth", authUser);
 router.post("/singup", signUp);
 router.post("/logout", logoutUser);
-router.get("/me", protect, getCurrentUser);
+router.get("/me", authenticateToken, getCurrentUser);
 
 export default router;
