@@ -5,6 +5,7 @@ import {
 	getProductById,
 	getProducts,
 	getLatestProducts,
+	getProductsById,
 } from "../controllers/product.controller.js";
 
 const router = exress.Router();
@@ -14,5 +15,6 @@ router.get("/newestproducts", getLatestProducts);
 router.get("/:id", getProductById);
 router.post("/", addNewProduct);
 router.delete("/:id", deleteProduct);
+router.post("/getproducts", getProductsById);
 
 export default router;

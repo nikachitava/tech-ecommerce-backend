@@ -1,6 +1,20 @@
 import { Product } from "../models/Product.model.js";
 import { slugify } from "../utils/slug.js";
 
+export const getProductsById = async (req, res) => {
+	try {
+		const { productIds } = req.body;
+
+		const products = await Product.find({
+			_id: { $in: productIds },
+		});
+
+		res.status(200).json(products);
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+};
+
 export const getLatestProducts = async (req, res) => {
 	try {
 		const products = await Product.find({})
