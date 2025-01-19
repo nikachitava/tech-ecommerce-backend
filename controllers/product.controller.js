@@ -49,6 +49,7 @@ export const addNewProduct = async (req, res) => {
 			sku,
 			discountPercent,
 			thumbnail,
+			images,
 			subcategory,
 			specifications,
 			variants,
@@ -92,7 +93,7 @@ export const addNewProduct = async (req, res) => {
 			specifications: specifications || [],
 			variants: variants || [],
 			tags: tags || [],
-			images: [],
+			images: images || [],
 			isActive: true,
 		});
 
