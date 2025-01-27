@@ -72,7 +72,8 @@ export const authUser = async (req, res) => {
 		if (!user) {
 			return res.status(401).json({
 				success: false,
-				message: "Invalid credentials",
+				message: "User with this email not found",
+				errorType: "INVALID_EMAIL",
 			});
 		}
 
@@ -80,7 +81,8 @@ export const authUser = async (req, res) => {
 		if (!isPasswordValid) {
 			return res.status(401).json({
 				success: false,
-				message: "Invalid credentials",
+				message: "Enter correct password",
+				errorType: "INVALID_PASSWORD",
 			});
 		}
 
